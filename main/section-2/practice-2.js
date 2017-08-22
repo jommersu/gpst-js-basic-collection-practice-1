@@ -1,6 +1,6 @@
 'use strict';
 
-function find(collection, ch) {
+/*function find(collection, ch) {
     for (let item of collection) {
         if (item.key === ch) {
             return item;
@@ -45,9 +45,21 @@ function expand(collection) {
         }
     }
     return result;
-}
+}*/
 
 module.exports = function countSameElements(collection) {
-    let expandedArray = expand(collection);
-    return summarize(expandedArray);
+/*    let expandedArray = expand(collection);
+    return summarize(expandedArray);*/
+    let result = [];
+    collection.forEach( ele => {
+        if(ele.includes("-")){
+            let arr = ele.split("-");
+            result.push({key : arr[0], count : parseInt(arr[1])});
+        }else if(!result.find(item => item.key === ele)){
+            result.push({key : ele, count: collection.filter(element => element === ele).length});
+        }
+
+    });
+
+    return result;
 }

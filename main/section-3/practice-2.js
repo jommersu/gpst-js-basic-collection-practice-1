@@ -1,6 +1,6 @@
 'use strict';
 
-function includes(collection, ch) {
+/*function includes(collection, ch) {
     for (let item of collection) {
         if (item === ch) {
             return true;
@@ -9,9 +9,9 @@ function includes(collection, ch) {
 
     return false;
 }
-
+*/
 module.exports = function createUpdatedCollection(collectionA, objectB) {
-    let result = [];
+/*    let result = [];
     for (let item of collectionA) {
         let key = item.key;
         let count = item.count;
@@ -19,6 +19,13 @@ module.exports = function createUpdatedCollection(collectionA, objectB) {
             count = count - Math.floor(count / 3);
         }
         result.push({key, count});
-    }
+    }*/
+    let result = collectionA.map( ele => {
+        if(!objectB.value.find( item => item === ele.key)){
+            return ele;
+        }else {
+            return {key : ele.key ,count : (ele.count - Math.floor(ele.count / 3))};
+        }
+    });
     return result;
 }

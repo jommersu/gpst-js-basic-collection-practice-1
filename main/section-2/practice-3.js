@@ -1,6 +1,6 @@
 'use strict';
 
-function find(collection, ch) {
+/*function find(collection, ch) {
     for (let item of collection) {
         if (item.name === ch) {
             return item;
@@ -58,9 +58,35 @@ function expand(collection) {
         }
     }
     return result;
-}
+}*/
 
 module.exports = function countSameElements(collection) {
-    let expandedArray = expand(collection);
-    return summarize(expandedArray);
+   /* let expandedArray = expand(collection);
+    return summarize(expandedArray);*/
+    let result = [];
+    collection.forEach(ele => {
+        if(ele.includes("[")){
+            let arr = ele.split("[");
+            result.push({name : arr[0], summary:parseInt(arr[arr.length - 1])});
+        }else if(ele.includes("-")){
+            let arr = ele.split("-");
+            result.push({name : arr[0], summary:parseInt(arr[1])});
+        }else if(ele.includes(":")){
+            let arr = ele.split(":");
+            result.push({name: arr[0], summary:parseInt(arr[1])});
+        }else if(!result.find( element => element.name === ele)){
+            result.push({name: ele , summary: collection.filter(item => item === ele).length});
+        }
+    });
+    let result2 = [];
+    result.forEach(ele => {
+        if (!result2.find(element => element.name === ele.name)) {
+            result2.push(ele);
+        } else {
+            let obj = result2.filter(item => item.name === ele.name);
+            let index = result2.indexOf(obj[0]);
+            result2[index].summary += ele.summary;
+        }
+    });
+    return result2;
 }

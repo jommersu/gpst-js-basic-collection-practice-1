@@ -1,6 +1,6 @@
 'use strict';
 
-function find(collection, ch) {
+/*function find(collection, ch) {
     for (let item of collection) {
         if (item.key === ch) {
             return item;
@@ -44,9 +44,23 @@ function discount(collection, promotionItems) {
         result.push({key, count});
     }
     return result;
-}
+}*/
 
 module.exports = function createUpdatedCollection(collectionA, objectB) {
-    let summarized = summarize(collectionA);
-    return discount(summarized, objectB.value);
+/*    let summarized = summarize(collectionA);
+    return discount(summarized, objectB.value);*/
+    let collectionC = [];
+    collectionA.forEach( ele => {
+        if(!collectionC.find( item => item.key === ele)){
+            collectionC.push({key : ele ,count : collectionA.filter(element => element === ele).length});
+        }
+    });
+    let result = collectionC.map( ele => {
+        if(!objectB.value.find( item => item === ele.key)){
+            return ele;
+        }else {
+            return {key : ele.key , count : (ele.count - Math.floor(ele.count / 3))};
+        }
+    });
+    return result;
 }
